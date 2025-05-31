@@ -45,7 +45,7 @@ namespace OsmiumEngine {
                     double invMag = 1D / Math.Sqrt(sqrMag);
                     return new Vector3d(x * invMag, y * invMag, z * invMag);
                 } else {
-                    return Zero;
+                    return new Vector3d(0D, 0D, 0D);
                 }
             }
         }
