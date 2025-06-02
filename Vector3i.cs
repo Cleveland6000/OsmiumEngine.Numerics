@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace OsmiumEngine {
+namespace OsmiumEngine.Numerics {
 
     public readonly struct Vector3i : IEquatable<Vector3i> {
 
