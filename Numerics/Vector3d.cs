@@ -26,11 +26,11 @@ namespace OsmiumEngine.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3d operator - (in Vector3d a) { return new Vector3d(-a.X, -a.Y, -a.Z); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3d operator * (in Vector3d a, in double b) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
+        public static Vector3d operator * (in Vector3d a, double b) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3d operator * (in double b, in Vector3d a) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
+        public static Vector3d operator * (double b, in Vector3d a) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3d operator / (in Vector3d a, in double b) { return new Vector3d(a.X / b, a.Y / b, a.Z / b); }
+        public static Vector3d operator / (in Vector3d a, double b) { return new Vector3d(a.X / b, a.Y / b, a.Z / b); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (in Vector3d a, in Vector3d b) { return a.X == b.X && a.Y == b.Y && a.Z == b.Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
