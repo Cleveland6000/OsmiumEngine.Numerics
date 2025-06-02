@@ -125,13 +125,13 @@ namespace OsmiumEngine.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly bool Equals (object obj) {
             return
-                obj is AABB v &&
-                MinX == v.MinX &&
-                MinY == v.MinY &&
-                MinZ == v.MinZ &&
-                MaxX == v.MaxX &&
-                MaxY == v.MaxY &&
-                MaxZ == v.MaxZ;
+                obj is AABB aabb &&
+                MinX == aabb.MinX &&
+                MinY == aabb.MinY &&
+                MinZ == aabb.MinZ &&
+                MaxX == aabb.MaxX &&
+                MaxY == aabb.MaxY &&
+                MaxZ == aabb.MaxZ;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode () { return HashCode.Combine(MinX, MinY, MinZ, MaxX, MaxY, MaxZ); }
