@@ -27,15 +27,15 @@ namespace OsmiumEngine.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3i operator - (in Vector3i a) { return new Vector3i(-a.X, -a.Y, -a.Z); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3i operator * (in Vector3i a, in int b) { return new Vector3i(a.X * b, a.Y * b, a.Z * b); }
+        public static Vector3i operator * (in Vector3i a, int b) { return new Vector3i(a.X * b, a.Y * b, a.Z * b); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3i operator * (in int b, in Vector3i a) { return new Vector3i(a.X * b, a.Y * b, a.Z * b); }
+        public static Vector3i operator * (int b, in Vector3i a) { return new Vector3i(a.X * b, a.Y * b, a.Z * b); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3d operator * (in Vector3i a, in double b) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
+        public static Vector3d operator * (in Vector3i a, double b) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3d operator * (in double b, in Vector3i a) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
+        public static Vector3d operator * (double b, in Vector3i a) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3d operator / (in Vector3i a, in double b) { return new Vector3d(a.X / b, a.Y / b, a.Z / b); }
+        public static Vector3d operator / (in Vector3i a, double b) { return new Vector3d(a.X / b, a.Y / b, a.Z / b); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (in Vector3i a, in Vector3i b) { return a.X == b.X && a.Y == b.Y && a.Z == b.Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -67,6 +67,6 @@ namespace OsmiumEngine.Numerics {
         public override readonly int GetHashCode () { return HashCode.Combine(X, Y, Z); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly string ToString () { return $"({X}, {Y}, {Z})"; }
-        
+
     }
 }
