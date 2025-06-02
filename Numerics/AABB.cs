@@ -13,7 +13,7 @@ namespace OsmiumEngine.Numerics {
         public readonly double MaxZ;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public AABB (in double minX, in double minY, in double minZ, in double maxX, in double maxY, in double maxZ) {
+        public AABB (double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
             MinX = Math.Min(minX, maxX);
             MinY = Math.Min(minY, maxY);
             MinZ = Math.Min(minZ, maxZ);
@@ -23,7 +23,7 @@ namespace OsmiumEngine.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private AABB (in double minX, in double minY, in double minZ, in double maxX, in double maxY, in double maxZ, in bool _) {
+        private AABB (double minX, double minY, double minZ, double maxX, double maxY, double maxZ, bool _) {
             MinX = minX;
             MinY = minY;
             MinZ = minZ;
@@ -54,7 +54,7 @@ namespace OsmiumEngine.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AABB UnsafeCreate (in double minX, in double minY, in double minZ, in double maxX, in double maxY, in double maxZ) {
+        public static AABB UnsafeCreate (double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
             return new AABB(minX, minY, minZ, maxX, maxY, maxZ, false);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
