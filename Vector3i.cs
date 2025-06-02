@@ -67,5 +67,6 @@ namespace OsmiumEngine.Numerics {
         public override readonly int GetHashCode () { return HashCode.Combine(X, Y, Z); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly string ToString () { return $"({X}, {Y}, {Z})"; }
+        
     }
 }
