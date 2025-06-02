@@ -1,0 +1,1 @@
+This repository hosts a collection of numerical types, primarily focused on performance. It's developed as a personal project, and these components also form a part of my ongoing game engine development.

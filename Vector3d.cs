@@ -1,71 +1,67 @@
 using System;
+using System.Runtime.CompilerServices;
 
-namespace OsmiumEngine {
+namespace OsmiumEngine.Numerics {
 
-    public struct Vector3d {
+    public readonly struct Vector3d : IEquatable<Vector3d> {
 
-        public double x;
-        public double y;
-        public double z;
+        public readonly double X;
+        public readonly double Y;
+        public readonly double Z;
 
-        public Vector3d (double x, double y, double z) { this.x = x; this.y = y; this.z = z; }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3d (double x, double y, double z) { X = x; Y = y; Z = z; }
 
-        public static Vector3d operator + (in Vector3d a, in Vector3d b) { return new Vector3d(a.x + b.x, a.y + b.y, a.z + b.z); }
-        public static Vector3d operator - (in Vector3d a, in Vector3d b) { return new Vector3d(a.x - b.x, a.y - b.y, a.z - b.z); }
-        public static Vector3d operator - (in Vector3d a) { return new Vector3d(-a.x, -a.y, -a.z); }
-        public static Vector3d operator * (in Vector3d a, in double b) { return new Vector3d(a.x * b, a.y * b, a.z * b); }
-        public static Vector3d operator * (in double b, in Vector3d a) { return new Vector3d(a.x * b, a.y * b, a.z * b); }
-        public static Vector3d operator / (in Vector3d a, in double b) { return new Vector3d(a.x / b, a.y / b, a.z / b); }
-        public static bool operator == (in Vector3d a, in Vector3d b) { return a.x == b.x && a.y == b.y && a.z == b.z; }
-        public static bool operator != (in Vector3d a, in Vector3d b) { return !(a == b); }
-
-        public static Vector3d Cross (in Vector3d a, in Vector3d b) { return new Vector3d(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
-        public static Vector3d Scale (in Vector3d a, in Vector3d b) { return new Vector3d(a.x * b.x, a.y * b.y, a.z * b.z); }
-        public static double Dot (in Vector3d a, in Vector3d b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
-
-        public static double Distance (in Vector3d a, in Vector3d b) {
-            double diff_x = a.x - b.x;
-            double diff_y = a.y - b.y;
-            double diff_z = a.z - b.z;
-            return Math.Sqrt(diff_x * diff_x + diff_y * diff_y + diff_z * diff_z);
-        }
-
-        public static readonly Vector3d Zero = new Vector3d(0D, 0D, 0D);
-        public static readonly Vector3d One = new Vector3d(1D, 1D, 1D);
+        public static readonly Vector3d Zero = new Vector3d(0.0, 0.0, 0.0);
+        public static readonly Vector3d UnitX = new Vector3d(1.0, 0.0, 0.0);
+        public static readonly Vector3d UnitY = new Vector3d(0.0, 1.0, 0.0);
+        public static readonly Vector3d UnitZ = new Vector3d(0.0, 0.0, 1.0);
         public static readonly Vector3d PositiveInfinity = new Vector3d(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity);
         public static readonly Vector3d NegativeInfinity = new Vector3d(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity);
 
-        public readonly double SqrMagnitude { get { return x * x + y * y + z * z; } }
-        public readonly double Magnitude { get { return Math.Sqrt(x * x + y * y + z * z); } }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3d operator + (in Vector3d a, in Vector3d b) { return new Vector3d(a.X + b.X, a.Y + b.Y, a.Z + b.Z); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3d operator - (in Vector3d a, in Vector3d b) { return new Vector3d(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3d operator - (in Vector3d a) { return new Vector3d(-a.X, -a.Y, -a.Z); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3d operator * (in Vector3d a, in double b) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3d operator * (in double b, in Vector3d a) { return new Vector3d(a.X * b, a.Y * b, a.Z * b); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3d operator / (in Vector3d a, in double b) { return new Vector3d(a.X / b, a.Y / b, a.Z / b); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (in Vector3d a, in Vector3d b) { return a.X == b.X && a.Y == b.Y && a.Z == b.Z; }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (in Vector3d a, in Vector3d b) { return a.X != b.X || a.Y != b.Y || a.Z != b.Z; }
 
-        public readonly Vector3d Normalized {
-            get {
-                double sqrMag = x * x + y * y + z * z;
-                if (sqrMag > 0D) {
-                    double invMag = 1D / Math.Sqrt(sqrMag);
-                    return new Vector3d(x * invMag, y * invMag, z * invMag);
-                } else {
-                    return new Vector3d(0D, 0D, 0D);
-                }
-            }
-        }
-
-        public readonly bool Equals (in Vector3d other) { return x == other.x && y == other.y && z == other.z; }
-
-        public override readonly bool Equals (object obj) { return obj is Vector3d v && Equals(v); }
-        public override readonly int GetHashCode () { return HashCode.Combine(x, y, z); }
-        public override readonly string ToString () { return $"({x}, {y}, {z})"; }
-
-        public void NormalizeInPlace () {
-            double sqrMag = x * x + y * y + z * z;
-            if (sqrMag > 0D) {
-                double invMag = 1D / Math.Sqrt(sqrMag);
-                x *= invMag;
-                y *= invMag;
-                z *= invMag;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly double GetSqrMagnitude () { return X * X + Y * Y + Z * Z; }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly double GetMagnitude () { return Math.Sqrt(X * X + Y * Y + Z * Z); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3d GetNormalized () {
+            double sqrMag = X * X + Y * Y + Z * Z;
+            if (sqrMag > 0.0) {
+                double invMag = 1.0 / Math.Sqrt(sqrMag);
+                return new Vector3d(X * invMag, Y * invMag, Z * invMag);
             } else {
-                x = y = z = 0D;
+                return new Vector3d(0.0, 0.0, 0.0);
             }
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly bool Equals (Vector3d other) { return X == other.X && Y == other.Y && Z == other.Z; }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly bool Equals (in Vector3d other) { return X == other.X && Y == other.Y && Z == other.Z; }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly bool Equals (object obj) { return obj is Vector3d v && X == v.X && Y == v.Y && Z == v.Z; }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly int GetHashCode () { return HashCode.Combine(X, Y, Z); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly string ToString () { return $"({X}, {Y}, {Z})"; }
+
     }
 }
