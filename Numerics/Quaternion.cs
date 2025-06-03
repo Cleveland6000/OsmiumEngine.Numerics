@@ -39,7 +39,7 @@ namespace OsmiumEngine.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Quaternion GetNormalized () {
             double norm = Math.Sqrt(W * W + X * X + Y * Y + Z * Z);
-            if (norm == 0) { 
+            if (norm == 0) {
                 return Identity;
             }
             double invNorm = 1.0 / norm;
@@ -47,21 +47,13 @@ namespace OsmiumEngine.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (in Quaternion a, in Quaternion b) {
-            return a.W == b.W && a.X == b.X && a.Y == b.Y && a.Z == b.Z;
-        }
+        public static bool operator == (in Quaternion a, in Quaternion b) { return a.W == b.W && a.X == b.X && a.Y == b.Y && a.Z == b.Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (in Quaternion a, in Quaternion b) {
-            return a.W != b.W || a.X != b.X || a.Y != b.Y || a.Z != b.Z;
-        }
+        public static bool operator != (in Quaternion a, in Quaternion b) { return a.W != b.W || a.X != b.X || a.Y != b.Y || a.Z != b.Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly bool Equals (object obj) {
-            return obj is Quaternion other && W == other.W && X == other.X && Y == other.Y && Z == other.Z;
-        }
+        public override readonly bool Equals (object obj) { return obj is Quaternion other && W == other.W && X == other.X && Y == other.Y && Z == other.Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals (Quaternion other) {
-            return W == other.W && X == other.X && Y == other.Y && Z == other.Z;
-        }
+        public readonly bool Equals (Quaternion other) { return W == other.W && X == other.X && Y == other.Y && Z == other.Z; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Quaternion operator * (in Quaternion a, in Quaternion b) {
@@ -141,18 +133,12 @@ namespace OsmiumEngine.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode () {
-            return HashCode.Combine(W, X, Y, Z);
-        }
+        public override readonly int GetHashCode () { return HashCode.Combine(W, X, Y, Z); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly string ToString () { return $"W:{W}, X:{X}, Y:{Y}, Z:{Z}"; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString () {
-            return $"({W}, {X}, {Y}, {Z})";
-        }
+        public readonly UnityEngine.Quaternion ToUnityQuaternion () { return new UnityEngine.Quaternion((float)X, (float)Y, (float)Z, (float)W); }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly UnityEngine.Quaternion ToUnityQuaternion () {
-            return new UnityEngine.Quaternion((float)X, (float)Y, (float)Z, (float)W);
-        }
     }
 }
