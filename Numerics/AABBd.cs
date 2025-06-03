@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace OsmiumEngine.Numerics {
 
-    public readonly struct AABB : IEquatable<AABB> {
+    public readonly struct AABBd : IEquatable<AABBd> {
 
         public readonly double MinX;
         public readonly double MinY;
@@ -13,7 +13,7 @@ namespace OsmiumEngine.Numerics {
         public readonly double MaxZ;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public AABB (double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+        public AABBd (double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
             MinX = Math.Min(minX, maxX);
             MinY = Math.Min(minY, maxY);
             MinZ = Math.Min(minZ, maxZ);
@@ -23,7 +23,7 @@ namespace OsmiumEngine.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private AABB (double minX, double minY, double minZ, double maxX, double maxY, double maxZ, bool _) {
+        private AABBd (double minX, double minY, double minZ, double maxX, double maxY, double maxZ, bool _) {
             MinX = minX;
             MinY = minY;
             MinZ = minZ;
@@ -33,7 +33,7 @@ namespace OsmiumEngine.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (in AABB a, in AABB b) {
+        public static bool operator == (in AABBd a, in AABBd b) {
             return
                 a.MinX == b.MinX &&
                 a.MinY == b.MinY &&
@@ -43,7 +43,7 @@ namespace OsmiumEngine.Numerics {
                 a.MaxZ == b.MaxZ;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (in AABB a, in AABB b) {
+        public static bool operator != (in AABBd a, in AABBd b) {
             return
                 a.MinX != b.MinX ||
                 a.MinY != b.MinY ||
@@ -54,15 +54,15 @@ namespace OsmiumEngine.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AABB UnsafeCreate (double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
-            return new AABB(minX, minY, minZ, maxX, maxY, maxZ, false);
+        public static AABBd UnsafeCreate (double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+            return new AABBd(minX, minY, minZ, maxX, maxY, maxZ, false);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AABB UnsafeCreateFromCenterAndSize (in Vector3d center, in Vector3d size) {
+        public static AABBd UnsafeCreateFromCenterAndSize (in Vector3d center, in Vector3d size) {
             double halfX = size.X * 0.5;
             double halfY = size.Y * 0.5;
             double halfZ = size.Z * 0.5;
-            return new AABB(
+            return new AABBd(
                 center.X - halfX,
                 center.Y - halfY,
                 center.Z - halfZ,
@@ -72,15 +72,15 @@ namespace OsmiumEngine.Numerics {
                 false);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AABB UnsafeCreateFromTwoPoint (in Vector3d a, in Vector3d b) {
-            return new AABB(a.X, a.Y, a.Z, b.X, b.Y, b.Z, false);
+        public static AABBd UnsafeCreateFromTwoPoint (in Vector3d a, in Vector3d b) {
+            return new AABBd(a.X, a.Y, a.Z, b.X, b.Y, b.Z, false);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AABB CreateFromCenterAndSize (in Vector3d center, in Vector3d size) {
+        public static AABBd CreateFromCenterAndSize (in Vector3d center, in Vector3d size) {
             double halfX = Math.Abs(size.X) * 0.5;
             double halfY = Math.Abs(size.Y) * 0.5;
             double halfZ = Math.Abs(size.Z) * 0.5;
-            return new AABB(
+            return new AABBd(
                 center.X - halfX,
                 center.Y - halfY,
                 center.Z - halfZ,
@@ -90,8 +90,8 @@ namespace OsmiumEngine.Numerics {
                 false);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AABB CreateFromTwoPoint (in Vector3d a, in Vector3d b) {
-            return new AABB(
+        public static AABBd CreateFromTwoPoint (in Vector3d a, in Vector3d b) {
+            return new AABBd(
                 Math.Min(a.X, b.X),
                 Math.Min(a.Y, b.Y),
                 Math.Min(a.Z, b.Z),
@@ -102,7 +102,7 @@ namespace OsmiumEngine.Numerics {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals (AABB other) {
+        public readonly bool Equals (AABBd other) {
             return
                 MinX == other.MinX &&
                 MinY == other.MinY &&
@@ -112,7 +112,7 @@ namespace OsmiumEngine.Numerics {
                 MaxZ == other.MaxZ;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals (in AABB other) {
+        public readonly bool Equals (in AABBd other) {
             return
                 MinX == other.MinX &&
                 MinY == other.MinY &&
@@ -125,7 +125,7 @@ namespace OsmiumEngine.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly bool Equals (object obj) {
             return
-                obj is AABB aabb &&
+                obj is AABBd aabb &&
                 MinX == aabb.MinX &&
                 MinY == aabb.MinY &&
                 MinZ == aabb.MinZ &&
