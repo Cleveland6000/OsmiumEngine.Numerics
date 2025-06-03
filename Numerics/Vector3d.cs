@@ -41,20 +41,19 @@ namespace OsmiumEngine.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly double GetMagnitude () { return Math.Sqrt(X * X + Y * Y + Z * Z); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly Vector3i GetFloorToInt () { return new Vector3i((int)Math.Floor(X), (int)Math.Floor(Y), (int)Math.Floor(Z)); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Vector3d GetNormalized () {
             double sqrMag = X * X + Y * Y + Z * Z;
-            if (sqrMag > 0.0) {
-                double invMag = 1.0 / Math.Sqrt(sqrMag);
-                return new Vector3d(X * invMag, Y * invMag, Z * invMag);
-            } else {
+            if (sqrMag == 0.0) {
                 return new Vector3d(0.0, 0.0, 0.0);
             }
+            double invMag = 1.0 / Math.Sqrt(sqrMag);
+            return new Vector3d(X * invMag, Y * invMag, Z * invMag);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals (Vector3d other) { return X == other.X && Y == other.Y && Z == other.Z; }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals (in Vector3d other) { return X == other.X && Y == other.Y && Z == other.Z; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly bool Equals (object obj) { return obj is Vector3d v && X == v.X && Y == v.Y && Z == v.Z; }
