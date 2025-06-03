@@ -59,8 +59,8 @@ namespace OsmiumEngine.Numerics {
         public override readonly bool Equals (object obj) { return obj is Vector3d v && X == v.X && Y == v.Y && Z == v.Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode () { return HashCode.Combine(X, Y, Z); }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly string ToString () { return $"({X}, {Y}, {Z})"; }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] 
+        public override readonly string ToString () { return $"X:{X}, Y:{Y}, Z:{Z}"; }
 
     }
 }
