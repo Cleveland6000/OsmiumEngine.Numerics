@@ -127,6 +127,28 @@ namespace OsmiumEngine.Numerics {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (in Quaternion a, in Quaternion b) { return a.W != b.W || a.X != b.X || a.Y != b.Y || a.Z != b.Z; }
 
+        public static Quaternion Slerp (in Quaternion a, in Quaternion b, double t) {
+            if (t <= 0.0) { return a; }
+            if (t >= 1.0) { return b; }
+            double dot = a.W * b.W + a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+            Quaternion bAdjusted = b;
+            if (dot < 0.0) {
+                dot = -dot;
+                bAdjusted = new Quaternion(-b.W, -b.X, -b.Y, -b.Z);
+            }
+            double theta = Math.Acos(dot);
+            double sinTheta = Math.Sin(theta);
+            double invSinTheta = 1.0 / sinTheta;
+            double s0 = Math.Sin((1.0 - t) * theta) * invSinTheta;
+            double s1 = Math.Sin(t * theta) * invSinTheta;
+            return new Quaternion(
+                a.W * s0 + bAdjusted.W * s1,
+                a.X * s0 + bAdjusted.X * s1,
+                a.Y * s0 + bAdjusted.Y * s1,
+                a.Z * s0 + bAdjusted.Z * s1
+            );
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly bool Equals (object obj) { return obj is Quaternion other && W == other.W && X == other.X && Y == other.Y && Z == other.Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
