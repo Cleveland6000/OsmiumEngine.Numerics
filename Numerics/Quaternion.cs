@@ -20,12 +20,47 @@ namespace OsmiumEngine.Numerics {
         public static readonly Quaternion J = new Quaternion(0.0, 0.0, 1.0, 0.0);
         public static readonly Quaternion K = new Quaternion(0.0, 0.0, 0.0, 1.0);
 
+        public static Quaternion FromEulerZYX (double zAngleDeg, double yAngleDeg, double xAngleDeg) {
+            double xRad = xAngleDeg * DegreesToRadians;
+            double yRad = yAngleDeg * DegreesToRadians;
+            double zRad = zAngleDeg * DegreesToRadians;
+            double sinXHalf = Math.Sin(xRad * 0.5);
+            double cosXHalf = Math.Cos(xRad * 0.5);
+            double sinYHalf = Math.Sin(yRad * 0.5);
+            double cosYHalf = Math.Cos(yRad * 0.5);
+            double sinZHalf = Math.Sin(zRad * 0.5);
+            double cosZHalf = Math.Cos(zRad * 0.5);
+            double w = cosZHalf * cosXHalf * cosYHalf + sinZHalf * sinXHalf * sinYHalf;
+            double x = cosZHalf * sinXHalf * cosYHalf - sinZHalf * cosXHalf * sinYHalf;
+            double y = cosZHalf * cosXHalf * sinYHalf + sinZHalf * sinXHalf * cosYHalf;
+            double z = sinZHalf * cosXHalf * cosYHalf - cosZHalf * sinXHalf * sinYHalf;
+            return new Quaternion(w, x, y, z);
+        }
+        public static Quaternion FromEulerZXY (double zAngleDeg, double xAngleDeg, double yAngleDeg) {
+            double xRad = xAngleDeg * DegreesToRadians;
+            double yRad = yAngleDeg * DegreesToRadians;
+            double zRad = zAngleDeg * DegreesToRadians;
+            double sinXHalf = Math.Sin(xRad * 0.5);
+            double cosXHalf = Math.Cos(xRad * 0.5);
+            double sinYHalf = Math.Sin(yRad * 0.5);
+            double cosYHalf = Math.Cos(yRad * 0.5);
+            double sinZHalf = Math.Sin(zRad * 0.5);
+            double cosZHalf = Math.Cos(zRad * 0.5);
+            double w = cosYHalf * cosXHalf * cosZHalf + sinYHalf * sinXHalf * sinZHalf;
+            double x = cosYHalf * sinXHalf * cosZHalf - sinYHalf * cosXHalf * sinZHalf;
+            double y = sinYHalf * cosXHalf * cosZHalf + cosYHalf * sinXHalf * sinZHalf;
+            double z = cosYHalf * cosXHalf * sinZHalf - sinYHalf * sinXHalf * cosZHalf;
+            return new Quaternion(w, x, y, z);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly double GetSqrNorm () { return W * W + X * X + Y * Y + Z * Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly double GetNorm () { return Math.Sqrt(W * W + X * X + Y * Y + Z * Z); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Quaternion GetConjugate () { return new Quaternion(W, -X, -Y, -Z); }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly bool Equals (Quaternion other) { return W == other.W && X == other.X && Y == other.Y && Z == other.Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Quaternion GetInverse () {
             double normSq = W * W + X * X + Y * Y + Z * Z;
@@ -35,7 +70,6 @@ namespace OsmiumEngine.Numerics {
             double invNormSq = 1.0 / normSq;
             return new Quaternion(W * invNormSq, -X * invNormSq, -Y * invNormSq, -Z * invNormSq);
         }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly Quaternion GetNormalized () {
             double norm = Math.Sqrt(W * W + X * X + Y * Y + Z * Z);
@@ -45,15 +79,6 @@ namespace OsmiumEngine.Numerics {
             double invNorm = 1.0 / norm;
             return new Quaternion(W * invNorm, X * invNorm, Y * invNorm, Z * invNorm);
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (in Quaternion a, in Quaternion b) { return a.W == b.W && a.X == b.X && a.Y == b.Y && a.Z == b.Z; }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (in Quaternion a, in Quaternion b) { return a.W != b.W || a.X != b.X || a.Y != b.Y || a.Z != b.Z; }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly bool Equals (object obj) { return obj is Quaternion other && W == other.W && X == other.X && Y == other.Y && Z == other.Z; }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals (Quaternion other) { return W == other.W && X == other.X && Y == other.Y && Z == other.Z; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Quaternion operator * (in Quaternion a, in Quaternion b) {
@@ -97,41 +122,13 @@ namespace OsmiumEngine.Numerics {
                 a.W * tempY - a.X * tempZ + a.Y * tempW + a.Z * tempX,
                 a.W * tempZ + a.X * tempY - a.Y * tempX + a.Z * tempW);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (in Quaternion a, in Quaternion b) { return a.W == b.W && a.X == b.X && a.Y == b.Y && a.Z == b.Z; }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (in Quaternion a, in Quaternion b) { return a.W != b.W || a.X != b.X || a.Y != b.Y || a.Z != b.Z; }
 
-        public static Quaternion FromEulerZYX (double zAngleDeg, double yAngleDeg, double xAngleDeg) {
-            double xRad = xAngleDeg * DegreesToRadians;
-            double yRad = yAngleDeg * DegreesToRadians;
-            double zRad = zAngleDeg * DegreesToRadians;
-            double sinXHalf = Math.Sin(xRad * 0.5);
-            double cosXHalf = Math.Cos(xRad * 0.5);
-            double sinYHalf = Math.Sin(yRad * 0.5);
-            double cosYHalf = Math.Cos(yRad * 0.5);
-            double sinZHalf = Math.Sin(zRad * 0.5);
-            double cosZHalf = Math.Cos(zRad * 0.5);
-            double w = cosZHalf * cosXHalf * cosYHalf + sinZHalf * sinXHalf * sinYHalf;
-            double x = cosZHalf * sinXHalf * cosYHalf - sinZHalf * cosXHalf * sinYHalf;
-            double y = cosZHalf * cosXHalf * sinYHalf + sinZHalf * sinXHalf * cosYHalf;
-            double z = sinZHalf * cosXHalf * cosYHalf - cosZHalf * sinXHalf * sinYHalf;
-            return new Quaternion(w, x, y, z);
-        }
-
-        public static Quaternion FromEulerZXY (double zAngleDeg, double xAngleDeg, double yAngleDeg) {
-            double xRad = xAngleDeg * DegreesToRadians;
-            double yRad = yAngleDeg * DegreesToRadians;
-            double zRad = zAngleDeg * DegreesToRadians;
-            double sinXHalf = Math.Sin(xRad * 0.5);
-            double cosXHalf = Math.Cos(xRad * 0.5);
-            double sinYHalf = Math.Sin(yRad * 0.5);
-            double cosYHalf = Math.Cos(yRad * 0.5);
-            double sinZHalf = Math.Sin(zRad * 0.5);
-            double cosZHalf = Math.Cos(zRad * 0.5);
-            double w = cosYHalf * cosXHalf * cosZHalf + sinYHalf * sinXHalf * sinZHalf;
-            double x = cosYHalf * sinXHalf * cosZHalf - sinYHalf * cosXHalf * sinZHalf;
-            double y = sinYHalf * cosXHalf * cosZHalf + cosYHalf * sinXHalf * sinZHalf;
-            double z = cosYHalf * cosXHalf * sinZHalf - sinYHalf * sinXHalf * cosZHalf;
-            return new Quaternion(w, x, y, z);
-        }
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly bool Equals (object obj) { return obj is Quaternion other && W == other.W && X == other.X && Y == other.Y && Z == other.Z; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode () { return HashCode.Combine(W, X, Y, Z); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
